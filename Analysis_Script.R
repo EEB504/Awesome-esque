@@ -6,12 +6,26 @@ non_numeric_indices # inspect which objects do not convert cleanly to numeric cl
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$rMax[non_numeric_indices]))
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$MassKG[non_numeric_indices]))
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$Herbivory[non_numeric_indices]))
-head(dirtivore_df)
 
+# delete the patterns
+dirtivore_clean <- lapply(dirtivore_df, gsub, pattern="rmaxmaxmax", replacement="", fixed=TRUE)
+dirtivore_clean <- lapply(dirtivore_clean, gsub, pattern="pewpewpew", replacement="", fixed=TRUE)
+
+# back to df
+dirtivore_df_clean <- data.frame(matrix(unlist(dirtivore_clean), nrow=168, byrow=F),stringsAsFactors=FALSE)
+#names
+colnames(dirtivore_df_clean) <- colnames(dirtivore_df)
+
+
+#Check
+non_numeric_indices2 <- which(is.na(as.numeric(dirtivore_df_clean$rMax))) # may be helpful
+non_numeric_indices2 # inspect which objects do not convert cleanly to
+head(dirtivore_df)
+dirtivore_df <- dirtivore_df_clean
 dirtivore_df$rMax <- log10(dirtivore_df$rMax)
 dirtivore_df$MassKG <- log10(dirtivore_df$MassKG)
 
 model <- lm(rMax~MassKG, data = dirtivore_df)
 
 plot(MassKG, rMax, pch = 16, cex = 1.3, col = "grey", xlab = paste("Body Mass (Log"[10]," Kg)", sep=""), ylab = paste("r"["max"],"(Log"[10]," Kg)", sep="" ))
-
+abline(model)
