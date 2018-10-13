@@ -20,12 +20,14 @@ colnames(dirtivore_df_clean) <- colnames(dirtivore_df)
 #Check
 non_numeric_indices2 <- which(is.na(as.numeric(dirtivore_df_clean$rMax))) # may be helpful
 non_numeric_indices2 # inspect which objects do not convert cleanly to
+
 head(dirtivore_df)
+
 dirtivore_df <- dirtivore_df_clean
-dirtivore_df$rMax <- log10(dirtivore_df$rMax)
-dirtivore_df$MassKG <- log10(dirtivore_df$MassKG)
+dirtivore_df$rMax <- log10(as.numeric(dirtivore_df$rMax))
+dirtivore_df$MassKG <- log10(as.numeric(dirtivore_df$MassKG))
 
 model <- lm(rMax~MassKG, data = dirtivore_df)
 
-plot(MassKG, rMax, pch = 16, cex = 1.3, col = "grey", xlab = paste("Body Mass (Log"[10]," Kg)", sep=""), ylab = paste("r"["max"],"(Log"[10]," Kg)", sep="" ))
+plot(dirtivore_df$MassKG, dirtivore_df$rMax, pch = 16, cex = 1.3, col = "grey", xlab = expression('Body Mass (Log'[10]*' Kg)'), ylab = expression('r'['max']*'(Log'[10]*') Kg)'))
 abline(model)
