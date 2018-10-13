@@ -4,3 +4,5 @@ load("dirtivore.rda"); ls() # load the dataset into the current R workspace and 
 non_numeric_indices <- which(is.na(as.numeric(dirtivore_df$rMax))) # may be helpful
 non_numeric_indices # inspect which objects do not convert cleanly to numeric class
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$rMax[non_numeric_indices]))
+unique(gsub("\\d+\\.\\d+","", dirtivore_df$MassKG[non_numeric_indices]))
+unique(gsub("\\d+\\.\\d+","", dirtivore_df$Herbivory[non_numeric_indices]))
