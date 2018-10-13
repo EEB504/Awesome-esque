@@ -6,3 +6,17 @@ non_numeric_indices # inspect which objects do not convert cleanly to numeric cl
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$rMax[non_numeric_indices]))
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$MassKG[non_numeric_indices]))
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$Herbivory[non_numeric_indices]))
+
+# delete the patterns
+dirtivore_clean <- lapply(dirtivore_df, gsub, pattern="rmaxmaxmax", replacement="", fixed=TRUE)
+dirtivore_clean <- lapply(dirtivore_clean, gsub, pattern="pewpewpew", replacement="", fixed=TRUE)
+
+# back to df
+dirtivore_df_clean <- data.frame(matrix(unlist(dirtivore_clean), nrow=168, byrow=F),stringsAsFactors=FALSE)
+#names
+colnames(dirtivore_df_clean) <- colnames(dirtivore_df)
+
+
+#Check
+non_numeric_indices2 <- which(is.na(as.numeric(dirtivore_df_clean$rMax))) # may be helpful
+non_numeric_indices2 # inspect which objects do not convert cleanly to
