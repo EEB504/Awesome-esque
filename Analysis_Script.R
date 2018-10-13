@@ -6,3 +6,12 @@ non_numeric_indices # inspect which objects do not convert cleanly to numeric cl
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$rMax[non_numeric_indices]))
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$MassKG[non_numeric_indices]))
 unique(gsub("\\d+\\.\\d+","", dirtivore_df$Herbivory[non_numeric_indices]))
+head(dirtivore_df)
+
+dirtivore_df$rMax <- log10(dirtivore_df$rMax)
+dirtivore_df$MassKG <- log10(dirtivore_df$MassKG)
+
+model <- lm(rMax~MassKG, data = dirtivore_df)
+
+plot(MassKG, rMax, pch = 16, cex = 1.3, col = "grey", xlab = paste("Body Mass (Log"[10]," Kg)", sep=""), ylab = paste("r"["max"],"(Log"[10]," Kg)", sep="" ))
+
